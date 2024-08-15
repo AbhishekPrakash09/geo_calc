@@ -7,7 +7,7 @@ export const clearCredentials = () => {
 
 export const validateToken = async () => {
     try {
-      const response = await axiosInstance.post("/api/token/refresh", localStorage.getItem("refresh"));
+      const response = await axiosInstance.post("/api/token/refresh", {refresh: localStorage.getItem("refresh")});
       const newAccessToken = response.data.access;
       localStorage.setItem("token", newAccessToken);
       return response.status == 200;

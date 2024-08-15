@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../http/axios-instance";
 import classes from "./Login.module.css";
 import { Button, InputAdornment, TextField } from "@mui/material";
@@ -7,6 +7,7 @@ import { useRef } from "react";
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const email = emailRef.current?.value;
@@ -22,6 +23,7 @@ const Login = () => {
     if (response.status == 200) {
       localStorage.setItem("token", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
+      navigate("/geocalc");
     }
   };
   return (

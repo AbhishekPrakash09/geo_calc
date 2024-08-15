@@ -3,6 +3,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import RootLayout, { loader as rootLoader } from "./pages/RootLayout";
 import Registration from "./pages/Registration";
+import GeoCalc from "./pages/GeoCalc";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     loader: rootLoader,
+  },
+  {
+    path: "/geocalc",
+    children: [
+      {
+        index: true,
+        element: <GeoCalc />,
+      },
+    ],
   },
 ]);
 

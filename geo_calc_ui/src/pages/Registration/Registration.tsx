@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./Registration.module.css";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import axiosInstance from "../../http/axios-instance";
@@ -8,7 +8,9 @@ const Registration = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleLogin = async () => {
+  const navigate = useNavigate();
+
+  const handleRegistration = async () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     if (!email || !password) {
@@ -19,7 +21,9 @@ const Registration = () => {
       password: password,
     });
 
-    console.log(response);
+    if (response.status == 201) {
+      navigate("/login");
+    }
   };
   return (
     <div className={classes.container}>
@@ -97,7 +101,7 @@ const Registration = () => {
                 },
               }}
               type="submit"
-              onClick={handleLogin}
+              onClick={handleRegistration}
             >
               Register
             </Button>

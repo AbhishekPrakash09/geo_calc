@@ -9,6 +9,8 @@ const RootLayout = () => {
   useEffect(() => {
     if (!isValid) {
       navigate("/login");
+    } else {
+      navigate("/geocalc");
     }
   }, []);
   return <div>RootLayout</div>;
