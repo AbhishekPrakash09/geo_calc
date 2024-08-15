@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9n+_=$erojpv-nwt1cfpg*5l=6a#rk(zs&lcp5*5wz@ovauenz'
+SECRET_KEY = "123!#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,9 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'geo_calc_app.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  
 ]
 
 ROOT_URLCONF = 'geo_calc_backend.urls'
@@ -75,10 +86,29 @@ WSGI_APPLICATION = 'geo_calc_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Database adapter
+        'NAME': 'geo_calc',  # Replace with your actual database name
+        'USER': 'postgres',  # Replace with your PostgreSQL username
+        'PASSWORD': 'Admin@123',  # Replace with your PostgreSQL password
+        'HOST': 'localhost',  # Host where the database runs (usually localhost)
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  
+    'http://localhost', 
+]
 
 
 # Password validation
