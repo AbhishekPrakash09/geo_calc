@@ -1,3 +1,4 @@
-import RootLayout from "./RootLayout";
+import RootLayout, { loader } from "./RootLayout";
 
 export default RootLayout
+export {loader}

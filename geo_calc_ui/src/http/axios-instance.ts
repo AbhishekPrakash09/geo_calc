@@ -19,12 +19,8 @@ instance.interceptors.response.use(
 instance.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("token");
-      const refreshToken = localStorage.getItem("refreshToken");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-      }
-      if (refreshToken) {
-        config.headers.RefreshToken = refreshToken;
       }
       return config;
     },
