@@ -19,7 +19,10 @@ const Login = () => {
       password: password,
     });
 
-    console.log(response);
+    if (response.status == 200) {
+      localStorage.setItem("token", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+    }
   };
   return (
     <div className={classes.container}>
