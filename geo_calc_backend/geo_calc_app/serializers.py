@@ -26,20 +26,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         
         
     def validate(self, attrs):
-        print("validating")
-        # Retrieve email and password from the request
         email = attrs.get("username")
         password = attrs.get("password")
 
-        # Find the user by email instead of username
         try:
             user = User.objects.get(username=email)
         except User.DoesNotExist:
             raise serializers.ValidationError({"email": "User with this email does not exist."})
 
-        # Update the username field in attrs with the user's username
         attrs['username'] = user.username
 
-        # Now call the original validate method, which expects 'username' and 'password'
         return super().validate(attrs)
 

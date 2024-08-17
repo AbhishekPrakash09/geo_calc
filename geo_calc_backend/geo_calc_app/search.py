@@ -1,4 +1,5 @@
 from .documents import LocationDocument
+from django_elasticsearch_dsl import Index
 from .models import Location
 from googlemaps import Client
 from django.conf import settings
@@ -7,10 +8,12 @@ gmaps = Client(key=settings.GOOGLE_API_KEY)
 
 def search_location(query):
 
+    print(query)
     search = LocationDocument.search().query("match", formatted_address=query)
     results = search.execute()
 
     if results:
+        print('found')
         location = results[0]
         return {
             'formatted_address': location.formatted_address,
@@ -26,13 +29,19 @@ def search_location(query):
             latitude = location['lat']
             longitude = location['lng']
 
-            new_location = Location.objects.create(
+            new_location, created = Location.objects.get_or_create(
                 formatted_address=formatted_address,
-                latitude=latitude,
-                longitude=longitude
+                defaults={
+                    'latitude': latitude,
+                    'longitude': longitude
+                }
             )
 
-            new_location.save()
+            
+            LocationDocument().update(new_location)
+            
+
+            print('creating new')
 
             return {
                 'formatted_address': formatted_address,

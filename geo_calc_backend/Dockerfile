@@ -11,6 +11,7 @@ RUN pip install gunicorn
 COPY . .
 ENV PYTHONPATH="${PYTHONPATH}:/app/geo_calc_app"
 ENV PYTHONPATH="${PYTHONPATH}:/app/geo_calc_backend"
+RUN python manage.py makemigrations
 RUN chmod +x gunicorn_run.sh
 EXPOSE 8000
 ENTRYPOINT ["./gunicorn_run.sh"]

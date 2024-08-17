@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "123!#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'geo_calc_app',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -118,15 +120,15 @@ CORS_ALLOW_HEADERS = [
     'access-control-allow-origin',
 ]
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
-# Elasticsearch settings
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': os.environ.get('ELASTICSEARCH_HOST', 'localhost:9200')  
+        'hosts': os.environ.get('ELASTICSEARCH_HOST', 'http://localhost:9200')
     },
 }
 
+ELASTICSEARCH_DSL_AUTO_REFRESH = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

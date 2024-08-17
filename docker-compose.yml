@@ -1,5 +1,26 @@
 version: '3.8'
+
 services:
+  django:
+    container_name: django
+    build:
+      context: ./geo_calc_backend
+    command: ./gunicorn_run.sh
+    volumes:
+      - ./geo_calc_backend:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=0
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - DATABASE_ENGINE=django.db.backends.postgresql_psycopg2
+      - GOOGLE_API_KEY=
+      - DATABASE_NAME=geo_calc
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=Admin@123
+      - DATABASE_HOST=192.168.0.105
+      - DATABASE_PORT=5432
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
     container_name: elasticsearch
@@ -18,35 +39,8 @@ services:
       - esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    networks:
-      - elastic
 
-  django:
-    container_name: django
-    build:
-      context: ./geo_calc_backend
-    command: ./gunicorn_run.sh
-    volumes:
-      - ./geo_calc_backend:/usr/src/app/
-    ports:
-      - 8000:8000
-    environment:
-      - DEBUG=1
-      - ELASTICSEARCH_HOST=http://localhost:9200
-      - DATABASE_ENGINE=django.db.backends.postgresql_psycopg2
-      - GOOGLE_API_KEY=dummy
-      - DATABASE_NAME=geo_calc
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=Admin@123
-      - DATABASE_HOST=192.168.0.105
-      - DATABASE_PORT=5432
-    depends_on:
-      - elasticsearch
 
 volumes:
   esdata:
     driver: local
-
-networks:
-  elastic:
-    driver: bridge
