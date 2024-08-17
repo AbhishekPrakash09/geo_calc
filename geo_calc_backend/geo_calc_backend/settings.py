@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,12 +87,12 @@ WSGI_APPLICATION = 'geo_calc_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Database adapter
-        'NAME': 'geo_calc',  # Replace with your actual database name
-        'USER': 'postgres',  # Replace with your PostgreSQL username
-        'PASSWORD': 'Admin@123',  # Replace with your PostgreSQL password
-        'HOST': 'localhost',  # Host where the database runs (usually localhost)
-        'PORT': '5432',  # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  
+        'NAME': 'geo_calc',  
+        'USER': 'postgres',  
+        'PASSWORD': 'Admin@123',  
+        'HOST': 'localhost',  
+        'PORT': '5432',  
     }
 }
 
@@ -116,6 +117,8 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'access-control-allow-origin',
 ]
+
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 
 # Password validation
