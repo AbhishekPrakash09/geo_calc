@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  django:
+    container_name: django
+    build:
+      context: ./geo_calc_backend
+    command: ./gunicorn_run.sh
+    volumes:
+      - ./geo_calc_backend:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
