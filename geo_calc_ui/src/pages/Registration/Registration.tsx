@@ -2,13 +2,18 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from "./Registration.module.css";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import axiosInstance from "../../http/axios-instance";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { clearCredentials } from "../../http/auth";
 
 const Registration = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    clearCredentials();
+  }, []);
 
   const handleRegistration = async () => {
     const email = emailRef.current?.value;
