@@ -13,7 +13,7 @@ def search_location(query):
     results = search.execute()
 
     if results:
-        print('found')
+        print('found existing data in elasticsearch index')
         location = results[0]
         return {
             'formatted_address': location.formatted_address,
@@ -21,6 +21,7 @@ def search_location(query):
             'longitude': location.longitude,
         }
     else:
+        print("querying google maps api")
         geocode_result = gmaps.geocode(query)
         
         if geocode_result:
@@ -37,11 +38,9 @@ def search_location(query):
                 }
             )
 
-            
-            LocationDocument().update(new_location)
-            
-
-            print('creating new')
+            if created: 
+                LocationDocument().update(new_location)
+                print('creating new document in elasticsearch index')
 
             return {
                 'formatted_address': formatted_address,
