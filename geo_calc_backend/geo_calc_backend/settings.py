@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "123!#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -87,12 +87,12 @@ WSGI_APPLICATION = 'geo_calc_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  
-        'NAME': 'geo_calc',  
-        'USER': 'postgres',  
-        'PASSWORD': 'Admin@123',  
-        'HOST': 'localhost',  
-        'PORT': '5432',  
+        'ENGINE': os.environ.get('DATABASE_ENGINE','django.db.backends.postgresql_psycopg2'),  
+        'NAME': os.environ.get('DATABASE_NAME', 'geo_calc'),  
+        'USER': os.environ.get('DATABASE_USER', 'postgres'),  
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'Admin@123'),  
+        'HOST': os.environ.get('DATABASE_HOST', '192.168.0.105'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),  
     }
 }
 
@@ -119,6 +119,13 @@ CORS_ALLOW_HEADERS = [
 ]
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+
+# Elasticsearch settings
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': os.environ.get('ELASTICSEARCH_HOST', 'localhost:9200')  
+    },
+}
 
 
 # Password validation
