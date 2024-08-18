@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .search import search_location
+from .calculate import calculate_distance
 
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserSerializer
@@ -31,9 +32,11 @@ class GetLocationView(APIView):
         destination_result = search_location(destination_location)
 
         if start_result and destination_result:
+            distance = calculate_distance(start_result, destination_result)
             return Response({
                 'start_location': start_result,
                 'destination_location': destination_result,
+                'distance': distance
             }, status=status.HTTP_200_OK)
         else:
             return Response(
