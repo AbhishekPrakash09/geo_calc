@@ -122,6 +122,7 @@ CORS_ALLOW_HEADERS = [
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
+
 ELASTICSEARCH_DSL = {
     'default': {
         'hosts': os.environ.get('ELASTICSEARCH_HOST', 'http://localhost:9200')
@@ -170,3 +171,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        'console': {
+            'level': LOG_LEVEL,
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": LOG_LEVEL,  # Use the determined log level
+    },
+}

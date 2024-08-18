@@ -3,6 +3,9 @@ from django_elasticsearch_dsl import Index
 from .models import Location
 from googlemaps import Client
 from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 gmaps = Client(key=settings.GOOGLE_API_KEY)
 
@@ -13,7 +16,7 @@ def search_location(query):
     results = search.execute()
 
     if results:
-        print('found existing data in elasticsearch index')
+        logger.info('found existing data in elasticsearch index')
         location = results[0]
         return {
             'formatted_address': location.formatted_address,
@@ -21,7 +24,7 @@ def search_location(query):
             'longitude': location.longitude,
         }
     else:
-        print("querying google maps api")
+        logger.info("querying google maps api")
         geocode_result = gmaps.geocode(query)
         
         if geocode_result:
@@ -40,7 +43,7 @@ def search_location(query):
 
             if created: 
                 LocationDocument().update(new_location)
-                print('creating new document in elasticsearch index')
+                logger.info('creating new document in elasticsearch index')
 
             return {
                 'formatted_address': formatted_address,
