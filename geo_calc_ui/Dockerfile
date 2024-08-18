@@ -1,4 +1,4 @@
-FROM node:20.11-alpine AS nodeapp
+FROM node:20.11-slim AS nodeapp
 WORKDIR /app
 COPY package.json .
 RUN npm cache clean --force
