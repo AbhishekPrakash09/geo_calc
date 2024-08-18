@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: import.meta.env.VITE_BASE_API_URL,
     headers: {
       "Content-type": "application/json",
     },
 });
-
 
 
 instance.interceptors.response.use(
