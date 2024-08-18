@@ -110,6 +110,3 @@ class ApplicationTests(APITestCase):
         response = view(request)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-  
-   
